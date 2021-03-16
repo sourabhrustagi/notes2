@@ -44,6 +44,11 @@ android {
             dimension "default"
         }
     }
+
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
 }
 
 dependencies {
@@ -59,4 +64,10 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+
+    implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
 }

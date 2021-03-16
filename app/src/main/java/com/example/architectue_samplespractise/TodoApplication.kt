@@ -6,5 +6,5 @@ import com.example.architectue_samplespractise.data.source.TasksRepository
 class TodoApplication : Application() {
 
     val tasksRepository: TasksRepository
-        get() = ServiceLocator.pro
+        get() = ServiceLocator.provideTasksRepository(this)
 }

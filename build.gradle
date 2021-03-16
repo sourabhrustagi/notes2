@@ -3,10 +3,14 @@ buildscript {
     ext.kotlin_version = "1.4.31"
     ext.navigationVersion = '2.2.0-rc02'
     ext.fragmentKtxVersion = '1.1.0-rc01'
+    ext.recyclerViewVersion = '1.1.0'
+    ext.archLifecycleVersion = '2.2.0-rc02'
+
     repositories {
         google()
         jcenter()
     }
+
     dependencies {
         classpath "com.android.tools.build:gradle:4.1.2"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"

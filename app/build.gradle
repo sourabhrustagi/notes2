@@ -70,4 +70,8 @@ dependencies {
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
 
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$archLifecycleVersion"
+
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
+
+    implementation "com.jakewharton.timber:timber:$timberVersion"
 }

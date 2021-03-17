@@ -1,5 +1,7 @@
 package com.example.architectue_samplespractise.tasks
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.lifecycle.*
 import com.example.architectue_samplespractise.Event
 import com.example.architectue_samplespractise.R
@@ -15,6 +17,9 @@ class TasksViewModel(
 ) : ViewModel() {
     private val _openTaskEvent = MutableLiveData<Event<String>>()
     val openTaskEvent: LiveData<Event<String>> = _openTaskEvent
+
+    private val _newTaskEvent = MutableLiveData<Event<Unit>>()
+    val newTaskEvent: LiveData<Event<Unit>> = _newTaskEvent
 
     private val _currentFilteringLabel = MutableLiveData<Int>()
     val currentFilteringLabel: LiveData<Int> = _currentFilteringLabel
@@ -47,6 +52,8 @@ class TasksViewModel(
 
     private val _noTasksLabel = MutableLiveData<Int>()
     val noTasksLabel: LiveData<Int> = _noTasksLabel
+
+    private var resultMessageShown: Boolean = false
 
     val empty: LiveData<Boolean> = Transformations.map(_items) {
         it.isEmpty()
@@ -108,6 +115,62 @@ class TasksViewModel(
 
     private fun getSavedFilterType(): TasksFilterType {
         return savedStateHandle.get(TASKS_FILTER_SAVED_STATE_KEY) ?: TasksFilterType.ALL_TASKS
+    }
+
+    fun clearCompletedTasks() {
+        viewModelScope.launch {
+            tasksRepository.clearCompletedTasks()
+            showSnackbarMessage(R.string.completed_tasks_cleared)
+        }
+    }
+
+    fun setFiltering(requestType: TasksFilterType) {
+        savedStateHandle.set(TASKS_FILTER_SAVED_STATE_KEY, requestType)
+
+        when (requestType) {
+            TasksFilterType.ALL_TASKS -> {
+                setFilter(
+                    R.string.label_all, R.string.no_tasks_all,
+                    R.drawable.logo_no_fill, true
+                )
+            }
+            TasksFilterType.ACTIVE_TASKS -> {
+                setFilter(
+                    R.string.label_active, R.string.no_tasks_active,
+                    R.drawable.ic_check_circle_96dp, false
+                )
+            }
+            TasksFilterType.COMPLETED_TASKS -> {
+                setFilter(
+                    R.string.label_completed, R.string.no_tasks_completed,
+                    R.drawable.ic_verified_user_96dp, false
+                )
+            }
+        }
+        loadTasks(false)
+    }
+
+    fun loadTasks(forceUpdate: Boolean) {
+        _forceUpdate.value = forceUpdate
+    }
+
+    private fun setFilter(
+        @StringRes filteringLabelString: Int,
+        @StringRes noTasksLabelString: Int,
+        @DrawableRes noTaskIconDrawable: Int,
+        tasksAddVisible: Boolean
+    ) {
+
+    }
+
+    fun showEditResultMessage(result: Int) {
+        if (resultMessageShown) return
+        when(result){
+            EDIT_RESULT_OK -> showSnackbarMessage(R.string.successfully_saved_task_message)
+            ADD_EDIT_RESULT_OK -> showSnackbarMessage(R.string.successfully_added_task_message)
+            DELETE_RESULT_OK -> showSnackbarMessage(R.string.successfully_deleted_task_message)
+        }
+        resultMessageShown = true
     }
 }
 

@@ -12,4 +12,6 @@ interface TasksRepository {
     suspend fun completeTask(task: Task)
 
     suspend fun activateTask(task: Task)
+
+    suspend fun clearCompletedTasks()
 }

@@ -8,7 +8,9 @@
         android:id="@+id/task_detail_fragment_dest"
         android:name="com.example.architectue_samplespractise.taskdetail.TaskDetailFragment"
         android:label="Task Details">
-
+        <argument
+            android:name="taskId"
+            app:argType="string" />
     </fragment>
 
     <fragment
@@ -41,7 +43,10 @@
         android:id="@+id/add_edit_task_fragment_dest"
         android:name="com.example.architectue_samplespractise.addedittask.AddEditTaskFragment"
         android:label="{title}">
-
+        <argument
+            android:name="taskId"
+            app:argType="string"
+            app:nullable="true" />
         <argument
             android:name="title"
             app:argType="string"
